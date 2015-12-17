@@ -4,14 +4,17 @@ angular.module('jkuri.touchspin', [])
 	'use strict';
 
 	var key_codes = {
+        tab   : 9, 
 		left  : 37,
-		right : 39
+        up    : 38,
+        right : 39,
+        down  : 40
 	};
 
 	var setScopeValues = function (scope, attrs) {
-		scope.min = attrs.min || 0;
-		scope.max = attrs.max || 100;
-		scope.step = attrs.step || 1;
+        scope.min = parseFloat(attrs.min) || 0;
+        scope.max = parseFloat(attrs.max) || 100;
+        scope.step = parseFloat(attrs.step) || 1;
 		scope.prefix = attrs.prefix || undefined;
 		scope.postfix = attrs.postfix || undefined;
 		scope.decimals = attrs.decimals || 0;
@@ -19,6 +22,7 @@ angular.module('jkuri.touchspin', [])
 		scope.stepIntervalDelay = attrs.stepIntervalDelay || 500;
 		scope.initval = attrs.initval || '';
 		scope.val = attrs.value || scope.initval;
+        scope.verticalButtons = attrs.verticalButtons === "true" || false;
 	};
 
 	return {
@@ -30,7 +34,7 @@ angular.module('jkuri.touchspin', [])
 			setScopeValues(scope, attrs);
 
 			var $body = $document.find('body');
-			var timeout, timer, helper = true, oldval = scope.val, clickStart;
+            var timeout, timer, oldval = scope.val, clickStart;
 
 			ngModel.$setViewValue(scope.val);
 			scope.focused = false;
@@ -120,26 +124,25 @@ angular.module('jkuri.touchspin', [])
 			};
 
 			$body.bind('keydown', function(event) {
-				if (!scope.focused) {
+                var which = event.which;
+
+                if (!scope.focused || which === key_codes.tab) {
 					return;
 				}
 
 				event.preventDefault();
 
-				var which = event.which;
-
-				if (which === key_codes.right) {
+                if (which === key_codes.right || which === key_codes.up) {
 					scope.increment();
-				} else if (which === key_codes.left) {
+                } else if (which === key_codes.left || which === key_codes.down) {
 					scope.decrement();
 				}
 
 				scope.$apply();
 			});
-
 		},
 		template: 
-		'<div class="input-group">' +
+        '<div class="input-group ng-touchspin">' +
 		'  <span class="input-group-btn" ng-show="!verticalButtons">' +
 		'    <button class="btn btn-default" ng-mousedown="startSpinDown()" ng-mouseup="stopSpin()"><i class="fa fa-minus"></i></button>' +
 		'  </span>' +
@@ -149,7 +152,10 @@ angular.module('jkuri.touchspin', [])
 		'  <span class="input-group-btn" ng-show="!verticalButtons">' +
 		'    <button class="btn btn-default" ng-mousedown="startSpinUp()" ng-mouseup="stopSpin()"><i class="fa fa-plus"></i></button>' +
 		'  </span>' +
+        '  <span class="input-group-btn-vertical" ng-hide="!verticalButtons">' +
+        '    <button class="btn btn-default ng-touchspin-up" ng-mousedown="startSpinUp()" ng-mouseup="stopSpin()" type="button"><i class="fa fa-plus"></i></button>' +
+        '    <button class="btn btn-default ng-touchspin-down" ng-mousedown="startSpinDown()" ng-mouseup="stopSpin()" type="button"><i class="fa fa-minus"></i></button>' +
+        '  </span>' +
 		'</div>'
 	};
-
 }]);
