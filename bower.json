@@ -6,7 +6,10 @@
     "Jan Kuri <jkuri88@gmail.com>"
   ],
   "description": "AngularJS Bootstrap Touchspin Implementation",
-  "main": "src/js/ngTouchSpin.js",
+  "main": [
+    "src/js/ngTouchSpin.js",
+    "src/css/ngTouchSpin.css"
+  ],
   "keywords": [
     "Bootstrap",
     "Touchspin"
