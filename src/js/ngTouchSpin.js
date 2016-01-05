@@ -143,16 +143,16 @@ angular.module('jkuri.touchspin', [])
 		},
 		template: 
         '<div class="input-group ng-touchspin">' +
-        '  <span class="input-group-btn" ng-show="!verticalButtons">' +
+        '  <span class="input-group-btn" ng-if="!verticalButtons">' +
         '    <button class="btn btn-default" ng-mousedown="startSpinDown()" ng-mouseup="stopSpin()"><i class="fa fa-minus"></i></button>' +
         '  </span>' +
         '  <span class="input-group-addon" ng-show="prefix" ng-bind="prefix"></span>' +
         '  <input type="text" ng-model="val" class="form-control" ng-blur="checkValue()" ng-focus="focus()">' +
         '  <span class="input-group-addon" ng-show="postfix" ng-bind="postfix"></span>' +
-        '  <span class="input-group-btn" ng-show="!verticalButtons">' +
+        '  <span class="input-group-btn" ng-if="!verticalButtons">' +
         '    <button class="btn btn-default" ng-mousedown="startSpinUp()" ng-mouseup="stopSpin()"><i class="fa fa-plus"></i></button>' +
         '  </span>' +
-        '  <span class="input-group-btn-vertical" ng-hide="!verticalButtons">' +
+        '  <span class="input-group-btn-vertical" ng-if="verticalButtons">' +
         '    <button class="btn btn-default ng-touchspin-up" ng-mousedown="startSpinUp()" ng-mouseup="stopSpin()" type="button"><i class="fa fa-plus"></i></button>' +
         '    <button class="btn btn-default ng-touchspin-down" ng-mousedown="startSpinDown()" ng-mouseup="stopSpin()" type="button"><i class="fa fa-minus"></i></button>' +
         '  </span>' +
