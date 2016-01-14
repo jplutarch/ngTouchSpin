@@ -22,13 +22,15 @@ angular.module('jkuri.touchspin', [])
         scope.stepIntervalDelay = attrs.stepIntervalDelay || 500;
         scope.initval = attrs.initval || '';
         scope.val = attrs.value || scope.initval;
-        scope.verticalButtons = attrs.verticalButtons === "true" || false;
 	};
 
 	return {
 		restrict: 'EA',
 		require: '?ngModel',
-		scope: true,
+        scope: {
+            isDisabled: '=ngDisabled',
+            verticalButtons: '=verticalButtons'
+        },
 		replace: true,
 		link: function (scope, element, attrs, ngModel) {
 			setScopeValues(scope, attrs);
@@ -142,19 +144,19 @@ angular.module('jkuri.touchspin', [])
 			});
 		},
 		template: 
-        '<div class="input-group ng-touchspin">' +
+        '<div class="input-group ng-touchspin" ng-class="{\'ng-touchspin-vertical\': verticalButtons}">' +
         '  <span class="input-group-btn" ng-if="!verticalButtons">' +
-        '    <button class="btn btn-default" ng-mousedown="startSpinDown()" ng-mouseup="stopSpin()"><i class="fa fa-minus"></i></button>' +
+        '    <button class="btn btn-default" ng-mousedown="startSpinDown()" ng-mouseup="stopSpin()" ng-disabled="isDisabled"><i class="fa fa-minus"></i></button>' +
         '  </span>' +
         '  <span class="input-group-addon" ng-show="prefix" ng-bind="prefix"></span>' +
-        '  <input type="text" ng-model="val" class="form-control" ng-blur="checkValue()" ng-focus="focus()">' +
+        '  <input type="text" ng-model="val" class="form-control" ng-blur="checkValue()" ng-focus="focus()" ng-disabled="isDisabled">' +
         '  <span class="input-group-addon" ng-show="postfix" ng-bind="postfix"></span>' +
         '  <span class="input-group-btn" ng-if="!verticalButtons">' +
-        '    <button class="btn btn-default" ng-mousedown="startSpinUp()" ng-mouseup="stopSpin()"><i class="fa fa-plus"></i></button>' +
+        '    <button class="btn btn-default" ng-mousedown="startSpinUp()" ng-mouseup="stopSpin()" ng-disabled="isDisabled"><i class="fa fa-plus"></i></button>' +
         '  </span>' +
         '  <span class="input-group-btn-vertical" ng-if="verticalButtons">' +
-        '    <button class="btn btn-default ng-touchspin-up" ng-mousedown="startSpinUp()" ng-mouseup="stopSpin()" type="button"><i class="fa fa-plus"></i></button>' +
-        '    <button class="btn btn-default ng-touchspin-down" ng-mousedown="startSpinDown()" ng-mouseup="stopSpin()" type="button"><i class="fa fa-minus"></i></button>' +
+        '    <button class="btn btn-default ng-touchspin-up" ng-mousedown="startSpinUp()" ng-mouseup="stopSpin()" type="button" ng-disabled="isDisabled"><i class="fa fa-plus"></i></button>' +
+        '    <button class="btn btn-default ng-touchspin-down" ng-mousedown="startSpinDown()" ng-mouseup="stopSpin()" type="button" ng-disabled="isDisabled"><i class="fa fa-minus"></i></button>' +
         '  </span>' +
         '</div>'
 	};
